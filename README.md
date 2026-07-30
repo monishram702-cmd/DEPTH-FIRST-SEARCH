@@ -74,32 +74,43 @@ Now, Queue becomes empty, So, terminate these process of iteration.
 ```
 from collections import deque
 from collections import defaultdict
-def bfs(graph,start,visited,path):
+def bfs(graph, start, visited, path):
     queue = deque()
-    path.append(start)
-    queue.append(start)
     visited[start] = True
-    while len(queue) != 0:
-        tmpnode = queue.popleft()
-        for neighbour in graph[tmpnode]:
-            if visited[neighbour] == False:
-                path.append(neighbour)
-                queue.append(neighbour)
+    queue.append(start)
+    path.append(start)
+    while queue:
+        node = queue.popleft()
+        for neighbour in graph[node]:
+            if not visited[neighbour]:
                 visited[neighbour] = True
+                queue.append(neighbour)
+                path.append(neighbour)
+
     return path
 
-graph = defaultdict(list)
-v,e = map(int,input().split())
-for i in range(e):
-    u,v = map(str,input().split())
-    graph[u].append(v)
-    graph[v].append(u)
 
-start = 'A'
-path = []
-visited = defaultdict(bool)
-traversedpath = bfs(graph,start,visited,path)
-print(traversedpath)
+graph = defaultdict(list)
+
+v, e = map(int, input("Enter the number of nodes and edges: ").split())
+print("\nEnter the edges (Adjacent Nodes):")
+for i in range(e):
+    u, w = input(f"Edge {i+1} (u v): ").split()
+    graph[u].append(w)
+    graph[w].append(u)      
+print("\nAdjacency List:")
+for node in graph:
+    print(node, "->", graph[node])
+start = input("\nEnter the start node for BFS: ")
+if start not in graph:
+    print("Invalid start node!")
+else:
+    visited = defaultdict(bool)
+    path = []
+
+traversedpath = bfs(graph, start, visited, path)
+print("\nBFS Traversal:", " -> ".join(traversedpath))
+
 
 ```
 <h3>Sample Input</h3>
@@ -118,7 +129,9 @@ G F <BR>
 <h3>Sample Output</h3>
 <hr>
 ['A', 'B', 'C', 'F', 'E', 'D', 'G']
-<img width="478" height="247" alt="Screenshot 2026-07-30 102015" src="https://github.com/user-attachments/assets/3218d89b-da0b-4e1f-8b9a-cc10021ea935" />
+<img width="420" height="196" alt="Screenshot 2026-07-30 102744" src="https://github.com/user-attachments/assets/9bc04d8c-eaeb-407b-bc33-4b830e0b6a06" />
+
+<img width="517" height="217" alt="Screenshot 2026-07-30 102806" src="https://github.com/user-attachments/assets/36293e2a-49d2-4477-9126-9c9bef34e48f" />
 
 <hr>
 
@@ -136,7 +149,8 @@ G F <BR>
 <h3>Sample Output</h3>
 <hr>
 ['0', '1', '2', '3', '4']
-<img width="592" height="188" alt="Screenshot 2026-07-30 102236" src="https://github.com/user-attachments/assets/bfd78f22-c1f6-4c26-aa04-30ff22529ca3" />
+<img width="409" height="430" alt="Screenshot 2026-07-30 102600" src="https://github.com/user-attachments/assets/023149c7-f529-4787-bc0c-271410d3ea07" />
+
 
 <hr>
 <h3>Result:</h3>
